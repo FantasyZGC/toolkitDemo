@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box1 {
+            height: 50px;
+            width: 50px;
+            background-color: cadetblue;
+        }
+
+        #box2 {
+            height: 50px;
+            width: 50px;
+            background-color: blue;
+        }
+
+        #box3 {
+            height: 50px;
+            width: 50px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box1">1</div>
+    <a id="box2">2</a>
+    <div id="box3">3</div>
+</body>
+<script type="module">
+    // 我们要完成的目标 Class
+    import DragElement from "./DragElement.js"
+    // 使 3 个元素可拖拽
+    let box1 = new DragElement(document.querySelector("#box1"))
+    let box2 = new DragElement(document.querySelector("#box2"))
+    let box3 = new DragElement(document.querySelector("#box3"))
+    // box2 解除拖拽效果，恢复为原来的样子
+    // box2.dragRelease()
+</script>
+
+</html>
