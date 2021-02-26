@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>循环轮播图</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- 只需要像这样，把基本的结构写好，item 的 id 以及指示器都会自动生成 -->
+    <div class="slider-box">
+        <div class="slider-item-container">
+            <div class="slider-item">1</div>
+            <div class="slider-item">2</div>
+            <div class="slider-item">3</div>
+            <div class="slider-item">4</div>
+        </div>
+    </div>
+
+</body>
+
+<script type="module">
+    import Slider from "./Slider.js"
+
+    // 传入相应配置，即可将上述 html 变为轮播图
+    // 这些类名都是可以自定义的，只要遵从一定的规则即可
+    new Slider({
+        sliderBox: document.querySelector(".slider-box"),
+        itemContainer: document.querySelector(".slider-item-container"),
+        itemName: "slider-item",
+        indicatorContainerName: "indicator-container",
+        indicatorName: "indicator",
+        duration: 0.5,
+        interval: 2
+    });
+</script>
+
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        body,
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        #title {
+            width: 760px;
+            height: 30px;
+            background-color: #3092d1;
+            color: #fff;
+            font-size: 16px;
+            line-height: 30px;
+            padding-left: 40px;
+            margin: 0 auto;
+        }
+
+        #main {
+            width: 800px;
+            /*height: 450px;*/
+            background-color: #eee;
+            margin: 0 auto;
+            padding: 40px 0px;
+        }
+
+        #content {
+            margin-bottom: 20px;
+        }
+
+        #content li {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        #content li span.show {
+            display: inline-block;
+            width: 300px;
+            text-align: right;
+            font-size: 16px;
+            color: #666;
+        }
+
+        #content select {
+            width: 166px;
+            height: 22px;
+        }
+
+        #content .tip {
+            font-size: 12px;
+            color: red;
+        }
+
+        #submitBtn {
+            background-color: #2375ba;
+            border-radius: 5px;
+            color: #fff;
+            outline: none;
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="title">用户注册</div>
+    <div id="main">
+        <ul id="content">
+            <li>
+                <span class="show">用户名：</span>
+                <input type="text" id="userName" class="showContent">
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">登陆密码：</span>
+                <input type="text" id="PIN" class="showContent">
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">确认密码：</span>
+                <input type="text" id="checkPIN" class="showContent">
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">姓名：</span>
+                <input type="text" id="fullName" class="showContent">
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">性别：</span>
+                <select id="sexSelect" class="showContent">
+                    <option selected="selected">请选择</option>
+                    <option>男</option>
+                    <option>女</option>
+                </select>
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">身份证号码：</span>
+                <input type="text" id="IDNumber" class="showContent">
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">邮箱：</span>
+                <input type="text" id="email" class="showContent">
+                <span class="tip"></span>
+            </li>
+            <li><span class="show">手机号码：</span>
+                <input type="text" id="tel" class="showContent">
+                <span class="tip"></span>
+            </li>
+        </ul>
+        <input type="button" name="" value="提交" id="submitBtn">
+    </div>
+    <script type="text/javascript">
+        var showContents = getEleByCls('showContent'),
+            tips = getEleByCls('tip'),
+            submitBtn = document.getElementById('submitBtn');
+        //输入框正则公式
+        var showRe = {
+            userName: '^[a-zA-Z][\\w]{5,19}$',
+            PIN: '^[^\\s\\u4e00-\\u9fa5]{6,18}$',
+            checkPIN: '!@#$%^&*',
+            fullName: '^[\\u4e00-\\u9fa5]{2,4}$',
+            sexSelect: '^[男女]$',
+            IDNumber: '^[1-9][\\d]{14}$|^[1-9][\\d]{16}[\\dXx]$',
+            email: '^[\\w-]+@[a-zA-Z]+(?:\.+[a-zA-Z])+$',
+            tel: '^(13)[\\d]{9}$|^(147)[\\d]{8}$|^(15)[0-35-9][\\d]{8}$|^(18)[025-9][\\d]{8}$'
+        };
+        //提示框内容
+        var tipCon = {
+            userName: '6-20位字母、数字或“_”，字母开头',
+            PIN: '密码6-18位，包括数字字母或符号，中间不能有空格',
+            checkPIN: '请输入登录密码或两次输入密码不一致',
+            fullName: '请输入两位到四位的中文汉字',
+            sexSelect: '请选择性别',
+            IDNumber: '请输入正确的15位或者18位的身份证号码',
+            email: '邮箱格式错误',
+            tel: '请输入正确的手机号码'
+        }
+        for (var i = 0, len = showContents.length; i < len; i++) {
+            showContentReCheck(i);
+        }
+        //匹配输入框内容
+        function showContentReCheck(index) {
+            showContents[index].onblur = function () {
+                var pattern = new RegExp('' + showRe[this.id]);
+                if (showContents[1].value) {
+                    showRe.checkPIN = '^' + showContents[1].value + '$';
+                }
+                tips[index].innerText = pattern.test(showContents[index].value) ? 'OK' : tipCon[this.id];
+            }
+        }
+        //绑定提交按钮
+        submitBtn.onclick = function () {
+            var result = '';
+            var resultRe = /^(?:OK)+$/;
+            for (var i = 0, len = showContents.length; i < len; i++) {
+                var pattern = new RegExp('' + showRe[showContents[i].id]);
+                tips[i].innerText = pattern.test(showContents[i].value) ? 'OK' : tipCon[showContents[i].id];
+                result += tips[i].innerText;
+            }
+            if (resultRe.test(result)) {
+                alert('验证成功');
+            }
+        }
+        //获取带有相应class值的元素-兼容IE
+        function getEleByCls(clsName, fatherEleName) {
+            fatherEleName = (fatherEleName != null) ? fatherEleName : document;
+            if (fatherEleName.getElementsByClassName) {
+                return fatherEleName.getElementsByClassName(clsName);
+            } else {
+                var NodeLists = fatherEleName.getElementsByTagName('*');
+                var elements = [];
+                for (var i = 0, len = NodeLists.length; i < len; i++) {
+                    var childNames = NodeLists[i].className.split(' ');
+                    for (var j = 0, len = childNames.length; j < len; j++) {
+                        if (childNames[j] == clsName) {
+                            elements.push(NodeLists[i]);
+                            break;
+                        }
+                    }
+                }
+                return elements;
+            }
+        }
+    </script>
+</body>
+
+</html>
